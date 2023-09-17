@@ -1,0 +1,34 @@
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----separator
+
+------separator
+Content-Disposition: form-data; name="file"; filename="teste2.mp3"
+Content-Type: audio/mpeg
+
+< ./teste2.mp3
+------separator--
+
+###
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+# @name create-transcription
+POST http://localhost:3333/videos/a80c6f26-ecf8-4629-9b6f-89363db10fc3/transcription
+Content-Type: application/json
+
+{
+  "prompt": "gaara, demônionio , ninja"
+}
+
+###
+# @name generate-ai-complete
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "a80c6f26-ecf8-4629-9b6f-89363db10fc3",
+  "temperature": 0.5,
+  "template": "gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}'''"
+}

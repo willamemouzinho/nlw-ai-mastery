@@ -47,6 +47,7 @@ export async function createTranscriptionRoute(server: FastifyInstance) {
       },
     })
 
-    return reply.status(204).send({ transcription })
+    // return reply.status(204).send({ transcription })
+    return { transcription }
   })
 }

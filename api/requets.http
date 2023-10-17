@@ -15,7 +15,7 @@ GET http://localhost:3333/prompts
 
 ###
 # @name create-transcription
-POST http://localhost:3333/videos/a80c6f26-ecf8-4629-9b6f-89363db10fc3/transcription
+POST http://localhost:3333/videos/c33d5a80-5ddf-4e01-b837-53335ad89883/transcription
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ POST http://localhost:3333/ai/complete
 Content-Type: application/json
 
 {
-  "videoId": "a80c6f26-ecf8-4629-9b6f-89363db10fc3",
+  "videoId": "fa101428-5982-414b-a803-b0143242bbc6",
   "temperature": 0.5,
-  "template": "gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}'''"
+  "prompt": "gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}'''"
 }

@@ -4,8 +4,31 @@ import { Separator } from './components/ui/separator'
 import { VideoInputForm } from './components/video-input-form'
 import { Header } from './components/header'
 import { GeneratePromptForm } from './components/generate-prompt-form'
+import { useState } from 'react'
+import { useCompletion } from 'ai/react'
 
 export const App = () => {
+  const [videoId, setVideoId] = useState<string | null>(null)
+  const [temperature, setTemperature] = useState(0.5)
+
+  const {
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+    completion,
+    isLoading,
+  } = useCompletion({
+    api: 'http://localhost:3333/ai/complete',
+    body: {
+      videoId,
+      temperature,
+    },
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -15,10 +38,13 @@ export const App = () => {
             <Textarea
               placeholder="Inclua o prompt para a IA ..."
               className="flex-1 resize-none leading-relaxed"
+              value={input}
+              onChange={handleInputChange}
             />
             <Textarea
               placeholder="Resultado gerado pela IA ..."
               className="flex-1 resize-none leading-relaxed"
+              value={completion}
             />
           </div>
           <p className="text-sm text-muted-foreground">
@@ -29,11 +55,17 @@ export const App = () => {
           </p>
         </div>
         <aside className="w-80 space-y-6">
-          <VideoInputForm />
+          <VideoInputForm onVideoUploaded={setVideoId} />
 
           <Separator />
 
-          <GeneratePromptForm />
+          <GeneratePromptForm
+            onChangeTemperature={setTemperature}
+            valueTemperature={temperature}
+            onPromptSelected={setInput}
+            onFormSubmit={handleSubmit}
+            onIsLoading={isLoading}
+          />
         </aside>
       </main>
     </div>

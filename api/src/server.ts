@@ -9,7 +9,8 @@ const server = fastify()
 
 const corsOptions = {
   credentials: true,
-  origin: /localhost:3333/,
+  origin: '*',
+  // origin: /localhost:3333/,|
 }
 
 server.register(fastifyCors, corsOptions)

@@ -10,21 +10,31 @@ import {
   SelectValue,
 } from './ui/select'
 import { Slider } from './ui/slider'
+import { PromptSelect } from './prompt-select'
+import { FormEvent } from 'react'
+// import { useState } from 'react'
 
-export const GeneratePromptForm = () => {
+interface GeneratePromptFormProps {
+  onChangeTemperature: (value: number) => void
+  valueTemperature: number
+  onPromptSelected: (prompt: string) => void
+  onFormSubmit: (event: FormEvent<HTMLFormElement>) => void
+  onIsLoading: boolean
+}
+
+export const GeneratePromptForm = (props: GeneratePromptFormProps) => {
+  // const [temperature, setTemperature] = useState(0.5)
+  // const [videoId, setVideoId] = useState<string | null>(null)
+
+  // function onPromptSelected(template: string) {
+  //   console.log(template)
+  // }
+
   return (
-    <form action="" className="space-y-6">
+    <form onSubmit={props.onFormSubmit} className="space-y-6">
       <div className="space-y-2">
         <Label className="font-semibold">Prompt</Label>
-        <Select>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="title">Título do YouTube</SelectItem>
-            <SelectItem value="description">Descrição do YouTube</SelectItem>
-          </SelectContent>
-        </Select>
+        <PromptSelect onPromptSelected={props.onPromptSelected} />
       </div>
 
       <div className="space-y-2">
@@ -46,7 +56,14 @@ export const GeneratePromptForm = () => {
 
       <div className="space-y-4">
         <Label className="font-semibold">Temperatura</Label>
-        <Slider min={0} max={1} step={0.1} className="cursor-pointer" />
+        <Slider
+          min={0}
+          max={1}
+          step={0.1}
+          value={[props.valueTemperature]}
+          onValueChange={(value) => props.onChangeTemperature(value[0])}
+          className="cursor-pointer"
+        />
         <span className="block text-xs text-muted-foreground italic leading-relaxed">
           Valores mais altos tendem a deixar o resultado mais criativo, porém
           com mais chances d eerros.
@@ -56,6 +73,7 @@ export const GeneratePromptForm = () => {
       <Separator />
 
       <Button
+        disabled={props.onIsLoading}
         type="submit"
         className="w-full flex items-center gap-x-2 font-semibold"
       >
